@@ -5,9 +5,9 @@ variable "project_id" {
 }
 
 variable "region" {
-  description = "Location of the buckets and the Cloud Run services that use them. asia-south1 (Mumbai) is closest to shoppers in India."
+  description = "Location of the buckets and the Cloud Run services that use them. us-central1 (Iowa) is the cheapest: Cloud Run Tier 1 pricing, and Cloud Storage's always-free tier (5 GB stored, 100 GB/month internet egress from North America) covers only us-central1, us-east1 and us-west1. Shoppers in India get images ~200 ms further away than from asia-south1 (Mumbai, also Tier 1 but no free tier); browsers cache them for a year, and a CDN closes the gap."
   type        = string
-  default     = "asia-south1"
+  default     = "us-central1"
 }
 
 # ---- catalog extractor -------------------------------------------------------------------------------------------
@@ -78,4 +78,30 @@ variable "api_service_name" {
   description = "Cloud Run service name of the API (for the push account's run.invoker grant)."
   type        = string
   default     = "grocery-hub-channel-api"
+}
+
+# ---- container images (Artifact Registry) ------------------------------------------------------------------------
+
+variable "image_repository" {
+  description = "Artifact Registry Docker repository the builds push to (their _REPO substitution)."
+  type        = string
+  default     = "grocery-hub"
+}
+
+variable "images_keep_recent" {
+  description = "Versions of each image always kept (the newest ones: rollback targets)."
+  type        = number
+  default     = 5
+}
+
+variable "images_delete_after_days" {
+  description = "Other image versions are deleted once older than this."
+  type        = number
+  default     = 30
+}
+
+variable "scan_images" {
+  description = "Scan pushed images for known vulnerabilities (Artifact Analysis on-push scanning, billed per image scanned, roughly $0.26 each)."
+  type        = bool
+  default     = false
 }

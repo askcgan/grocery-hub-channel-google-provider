@@ -33,6 +33,7 @@ resource "google_project_service" "apis" {
     "iamcredentials.googleapis.com", # signed image links; OIDC tokens for Pub/Sub push
     "pubsub.googleapis.com",
     "run.googleapis.com",
+    "artifactregistry.googleapis.com",
   ])
   service            = each.value
   disable_on_destroy = false

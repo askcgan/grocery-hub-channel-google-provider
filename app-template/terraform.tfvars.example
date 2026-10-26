@@ -1,0 +1,16 @@
+# Copy to terraform.tfvars. Planning is refused until this is true.
+acknowledge_billable_resources = false
+
+project_id   = "groceryhub-channel"
+region       = "us-central1"
+service_name = "test-service"
+
+db_name              = "poc-db"
+db_database_version  = "MYSQL_8_0"
+db_tier              = "db-f1-micro" # ≈ $9/month; db-g1-small ≈ $25/month
+db_high_availability = false         # true doubles the database cost
+db_secret_name       = "poc-db-pass"
+
+bucket_name       = "groceryhub-storage"
+run_max_instances = 2
+run_invokers      = [] # private

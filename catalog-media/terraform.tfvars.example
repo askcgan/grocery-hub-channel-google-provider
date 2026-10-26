@@ -1,7 +1,7 @@
 # Copy to terraform.tfvars and adjust. Nothing here is secret.
 
 project_id = "groceryhub-channel"
-region     = "asia-south1"
+region     = "us-central1"
 
 # Optional: a fixed name instead of <project>-catalog-extractor
 # extractor_bucket_name = "groceryhub-channel-catalog-extractor"
@@ -15,7 +15,13 @@ media_cors_origins = ["*"]
 
 topic_prefix = ""
 
+# Container images: keep the newest 5 versions of each, delete other versions after 30 days.
+images_keep_recent       = 5
+images_delete_after_days = 30
+# Vulnerability scanning on push (~$0.26 per image scanned).
+scan_images = false
+
 # Fill these in after the services are deployed, then apply again:
 # api_service_account_email = "grocery-hub-api-runner@groceryhub-channel.iam.gserviceaccount.com"
-# processor_url             = "https://grocery-hub-media-processor-424211466500.asia-south1.run.app"
-# api_url                   = "https://grocery-hub-channel-api-424211466500.asia-south1.run.app"
+# processor_url             = "https://grocery-hub-media-processor-424211466500.us-central1.run.app"
+# api_url                   = "https://grocery-hub-channel-api-424211466500.us-central1.run.app"

@@ -30,6 +30,24 @@ done
 gcloud storage buckets get-iam-policy "gs://$EXTRACTOR" --format=json 2>/dev/null | grep -q "catalog-extractor-runner@" \
   && ok "extractor account can read/write its bucket" || bad "extractor account has no access to gs://$EXTRACTOR"
 
+say "Deployer"
+DEPLOYER="terraform-deployer@${PROJECT_ID}.iam.gserviceaccount.com"
+if gcloud iam service-accounts describe "$DEPLOYER" --project="$PROJECT_ID" >/dev/null 2>&1; then
+  ok "terraform-deployer exists"
+  keys="$(gcloud iam service-accounts keys list --iam-account="$DEPLOYER" --managed-by=user --format='value(name)' 2>/dev/null | wc -l | tr -d ' ')"
+  [ "$keys" = "0" ] && ok "terraform-deployer has no user-managed keys (impersonation only)" || bad "terraform-deployer has $keys key(s): delete them"
+  broad="$(gcloud projects get-iam-policy "$PROJECT_ID" --flatten='bindings[].members' --filter="bindings.members:serviceAccount:${DEPLOYER} AND bindings.role:(roles/owner OR roles/editor OR roles/resourcemanager.projectIamAdmin)" --format='value(bindings.role)' 2>/dev/null)"
+  [ -z "$broad" ] && ok "terraform-deployer has no owner, editor or project IAM admin role" || bad "terraform-deployer has $broad: remove it"
+else
+  bad "terraform-deployer missing: run ./scripts/bootstrap.sh"
+fi
+
+say "Container images"
+gcloud artifacts repositories describe "${IMAGE_REPOSITORY:-grocery-hub}" --location="$REGION" --project="$PROJECT_ID" \
+  --format='value(name)' >/dev/null 2>&1 && ok "repository ${IMAGE_REPOSITORY:-grocery-hub} in $REGION" || bad "repository ${IMAGE_REPOSITORY:-grocery-hub} missing in $REGION"
+policies="$(gcloud artifacts repositories describe "${IMAGE_REPOSITORY:-grocery-hub}" --location="$REGION" --project="$PROJECT_ID" --format='value(cleanupPolicies)' 2>/dev/null)"
+[ -n "$policies" ] && ok "cleanup policies set" || bad "no cleanup policy on the image repository"
+
 say "Pub/Sub"
 for t in catalog.media.ingest-requested catalog.media.processed catalog.media.dead-letter; do
   gcloud pubsub topics describe "$t" --project="$PROJECT_ID" >/dev/null 2>&1 && ok "topic $t" || bad "topic $t missing"

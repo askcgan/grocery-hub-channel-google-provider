@@ -1,0 +1,77 @@
+1. Database & Analytics
+AlloyDB API (alloydb.googleapis.com)
+BigQuery Services (including Core, Connection, Data Policy, Data Transfer, Migration, Reservation, and Storage APIs)
+Cloud Datastore API (datastore.googleapis.com)
+Cloud SQL (sql-component.googleapis.com)
+Analytics Hub API (analyticshub.googleapis.com)
+Dataform API (dataform.googleapis.com)
+Cloud Dataplex API (dataplex.googleapis.com)
+2. Google Maps Platform & Geospatial APIs
+This project has an extensive set of Maps-related services enabled:
+
+Address Validation API (addressvalidation.googleapis.com)
+Aerial View, Air Quality, & Pollen APIs
+Geocoding, Geolocation, & Time Zone APIs
+Maps SDKs (Android, iOS, JavaScript, 3D SDKs, Embed, and Static Maps)
+Places API (New) & Places UI Kit
+Routes & Route Optimization APIs
+Solar & Weather APIs
+3. Management, Operations, & Observability
+App Hub, App Optimize, & App Topology APIs
+Cloud Asset API (cloudasset.googleapis.com)
+Cloud Logging & Cloud Monitoring APIs
+Cloud Trace API (cloudtrace.googleapis.com)
+Recommender API (recommender.googleapis.com)
+Service Management & Service Usage APIs
+4. Storage
+Cloud Storage & GStorage JSON APIs (storage.googleapis.com, storage-api.googleapis.com)
+5. Gemini & AI Assist
+Gemini for Google Cloud API (cloudaicompanion.googleapis.com)
+Gemini Cloud Assist API (geminicloudassist.googleapis.com)
+Would you like assistance in configuring any of these enabled services, or would you like to check if a specific API that is not on this list needs to be enabled?
+
+you need to provide assistance in configuring any of these enabled services
+
+Which category of enabled services would you like to configure first?
+
+Cloud Storage (GCS)
+Cloud SQL & AlloyDB Databases
+BigQuery & Analytics Hub
+Google Maps Platform APIs
+Which category of enabled services would you like to configure first?
+
+
+
+ commands:
+
+ gcloud services disable \
+    alloydb.googleapis.com \
+    bigquery.googleapis.com \
+    bigqueryconnection.googleapis.com \
+    bigquerydatapolicy.googleapis.com \
+    bigquerydatatransfer.googleapis.com \
+    bigquerymigration.googleapis.com \
+    bigqueryreservation.googleapis.com \
+    bigquerystorage.googleapis.com \
+    datastore.googleapis.com \
+    sql-component.googleapis.com \
+    analyticshub.googleapis.com \
+    dataform.googleapis.com \
+    dataplex.googleapis.com \
+    --force \
+    --project=groceryhub-channel
+
+
+gcloud services disable \
+    apphub.googleapis.com \
+    appoptimize.googleapis.com \
+    apptopology.googleapis.com \
+    cloudasset.googleapis.com \
+    cloudtrace.googleapis.com \
+    logging.googleapis.com \
+    monitoring.googleapis.com \
+    recommender.googleapis.com \
+    servicemanagement.googleapis.com \
+    serviceusage.googleapis.com \
+    --force \
+    --project=groceryhub-channel

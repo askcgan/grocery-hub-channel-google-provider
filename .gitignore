@@ -1,0 +1,6 @@
+# Secrets: the Google Maps key in plain text. Keep keys in Secret Manager / .env.local, never in this repo.
+api-credentials
+.terraform/
+*.tfstate
+*.tfstate.*
+tfplan

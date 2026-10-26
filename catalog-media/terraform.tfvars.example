@@ -1,0 +1,21 @@
+# Copy to terraform.tfvars and adjust. Nothing here is secret.
+
+project_id = "groceryhub-channel"
+region     = "asia-south1"
+
+# Optional: a fixed name instead of <project>-catalog-extractor
+# extractor_bucket_name = "groceryhub-channel-catalog-extractor"
+
+# The extractor signs its import CSV's image links (IMPORT_MEDIA_MODE=signed) so the media processor can fetch them.
+extractor_signs_image_links = true
+
+# false when a CDN backend bucket serves the images, or an org policy forbids allUsers
+media_public_read  = true
+media_cors_origins = ["*"]
+
+topic_prefix = ""
+
+# Fill these in after the services are deployed, then apply again:
+# api_service_account_email = "grocery-hub-api-runner@groceryhub-channel.iam.gserviceaccount.com"
+# processor_url             = "https://grocery-hub-media-processor-424211466500.asia-south1.run.app"
+# api_url                   = "https://grocery-hub-channel-api-424211466500.asia-south1.run.app"

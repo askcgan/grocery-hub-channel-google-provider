@@ -105,3 +105,43 @@ variable "scan_images" {
   type        = bool
   default     = false
 }
+
+# ---- operations agents' event topics (agent-events.tf) -------------------------------------------------------------
+
+variable "agent_events_enabled" {
+  description = "Create the operations agents' topics and agents.* subscriptions. Then switch the API's publishing on for them (APP_MESSAGING_ENABLED_TOPICS)."
+  type        = bool
+  default     = false
+}
+
+variable "agent_topics" {
+  description = "Agent topics to create, each with an agents.<topic> subscription. Add one only when its agent exists and switch the API's publishing on for it too (APP_MESSAGING_ENABLED_TOPICS)."
+  type        = list(string)
+  default     = ["grocery.order.lifecycle"]
+  validation {
+    condition = alltrue([for t in var.agent_topics : contains([
+      "grocery.order.lifecycle", "grocery.inventory.stock.updated", "grocery.inventory.low.stock", "grocery.payment.success",
+      "grocery.payment.refund.completed", "grocery.customer.review.submitted", "catalog.product.events",
+      "catalog.variant.events", "catalog.media.processed", "pricing-events", "tenant-events", "store-events",
+    ], t)])
+    error_message = "agent_topics may only name the agent topics in agent-events.tf (see AGENT_EVENT_TOPICS.md)."
+  }
+}
+
+variable "agent_service_account_email" {
+  description = "Runtime account of the agents' event trigger; gets roles/pubsub.subscriber on the agents.* subscriptions (pull). Empty = no grant yet."
+  type        = string
+  default     = ""
+}
+
+variable "agent_push_url" {
+  description = "HTTPS endpoint of the deployed agents' event trigger. Empty = pull subscriptions; set = push with an OIDC token (audience = this URL), topic in ?topic=."
+  type        = string
+  default     = ""
+}
+
+variable "agent_service_name" {
+  description = "Cloud Run service name of the agents' event trigger (for the push account's run.invoker grant)."
+  type        = string
+  default     = "grocery-hub-agents"
+}

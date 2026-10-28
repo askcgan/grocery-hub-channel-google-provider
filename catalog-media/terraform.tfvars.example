@@ -25,3 +25,9 @@ scan_images = false
 # api_service_account_email = "grocery-hub-api-runner@groceryhub-channel.iam.gserviceaccount.com"
 # processor_url             = "https://grocery-hub-media-processor-424211466500.us-central1.run.app"
 # api_url                   = "https://grocery-hub-channel-api-424211466500.us-central1.run.app"
+
+# Operations agents' event topics (agent-events.tf). Leave off until the agents' event trigger runs in this project.
+# agent_events_enabled        = true
+# agent_topics                = ["grocery.order.lifecycle"]   # add others only when their agent exists
+# agent_service_account_email = "grocery-hub-agents-runner@groceryhub-channel.iam.gserviceaccount.com"   # pull
+# agent_push_url              = "https://grocery-hub-agents-424211466500.us-central1.run.app/pubsub/push" # push instead

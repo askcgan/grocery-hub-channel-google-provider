@@ -31,6 +31,7 @@ storefront web + mobile ─► https://storage.googleapis.com/groceryhub-channel
 | Subscriptions | `media.dead-letter` (pull, 7 days); `media-processor.ingest` and `api.media-processed` (push, OIDC) | The push ones are created only once `processor_url` and `api_url` are set. |
 | Image repository | `grocery-hub` (Artifact Registry, Docker) | Keeps the newest 5 versions of each image and deletes other versions after 30 days. Vulnerability scanning on push is off by default (`scan_images`, about $0.26 per image scanned). |
 | APIs | storage, iam, iamcredentials, pubsub, run, artifactregistry | Never switched off on destroy. |
+| Agent event topics (`agent-events.tf`) | The topics in `agent_topics` (default `grocery.order.lifecycle` only) with `agents.<topic>` subscriptions, `agents.dead-letter` | **Off** until `agent_events_enabled = true`. Pull by default (`agent_service_account_email` may read); push with OIDC once `agent_push_url` is set. Contract and steps: `grocery-hub-channel-api/docs/kafka-pubsub/AGENT_EVENT_TOPICS.md` §6 |
 
 The two media buckets have `prevent_destroy`, so `terraform destroy` can't delete them by accident.
 
